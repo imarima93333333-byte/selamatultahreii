@@ -1,0 +1,518 @@
+/* =========================================================
+   BIRTHDAY WEBSITE — style.css
+   Layout system: mobile-first, flexbox + grid + clamp().
+   position:absolute is used ONLY for small decorations
+   (sparkles, party hat, falling petals/hearts) — never for
+   the main structural layout of a section.
+   ========================================================= */
+
+:root {
+  --pink-1: #FFD6E8;
+  --pink-2: #FFEAF3;
+  --pink-3: #FFF8FB;
+  --white:  #FFFFFF;
+  --pink-accent: #FF9FCB;
+
+  --font-hand: 'Patrick Hand', cursive;
+
+  /* fluid spacing helpers */
+  --space-s: clamp(0.5rem, 2vw, 1rem);
+  --space-m: clamp(1rem, 4vw, 2rem);
+  --space-l: clamp(1.5rem, 6vw, 3rem);
+
+  --radius-lg: clamp(16px, 4vw, 28px);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;           /* guarantee: no horizontal scroll */
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: var(--pink-3);
+  color: #6b4457;
+  /* mobile-safe viewport height (avoids iOS URL-bar jump issues) */
+  min-height: 100svh;
+}
+
+img { max-width: 100%; display: block; }
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* =========================================================
+   SCREEN SYSTEM
+   Every "page" is a flex column that fills the viewport and
+   centers its content. Only one screen is visible at a time
+   (controlled via the .is-active class in JS). This keeps the
+   layout system identical across every page.
+   ========================================================= */
+
+#app {
+  position: relative;
+  width: 100%;
+  min-height: 100svh;
+}
+
+.screen {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 100svh;
+  padding: var(--space-l) var(--space-m);
+  position: relative;
+  overflow: hidden;             /* contains decorative absolutes */
+}
+
+.screen.is-active {
+  display: flex;
+  animation: screen-fade 0.6s ease both;
+}
+
+@keyframes screen-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* =========================================================
+   LOADING SCREEN
+   ========================================================= */
+
+#loading-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: var(--white);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-s);
+  transition: opacity 0.5s ease;
+}
+
+#loading-screen.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.loading-flower {
+  font-size: clamp(2rem, 8vw, 3rem);
+  animation: bounce-small 0.7s ease-in-out infinite alternate;
+}
+
+@keyframes bounce-small {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-14px); }
+}
+
+.loading-text {
+  font-family: var(--font-hand);
+  font-size: clamp(1rem, 3.5vw, 1.3rem);
+  color: var(--pink-accent);
+  letter-spacing: 0.02em;
+}
+
+/* =========================================================
+   PAGE 1 — COVER
+   ========================================================= */
+
+#page-cover {
+  background: linear-gradient(180deg, var(--pink-1) 0%, var(--pink-3) 70%, var(--white) 100%);
+}
+
+.cover-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(1rem, 4vh, 2rem);
+  width: 100%;
+  max-width: 420px;
+}
+
+.cover-title {
+  width: clamp(180px, 60vw, 300px);
+  opacity: 0;
+  transform: scale(0.7);
+  animation: title-in 0.7s 0.1s cubic-bezier(.34,1.56,.64,1) forwards;
+}
+
+@keyframes title-in {
+  to { opacity: 1; transform: scale(1); }
+}
+
+.photo-frame {
+  position: relative;           /* container = coordinate system for the hat decoration */
+  width: clamp(160px, 46vw, 220px);
+  aspect-ratio: 0.7;
+  opacity: 0;
+  transform: translateY(50px);
+  animation: photo-in 0.7s 0.5s cubic-bezier(.22,.9,.36,1) forwards;
+}
+
+@keyframes photo-in {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  border: 6px solid var(--white);
+  box-shadow: 0 12px 28px rgba(255, 159, 203, 0.35);
+  background: var(--white);
+}
+
+/* party hat is a small decoration on top of the photo — absolute is allowed here */
+.party-hat {
+  position: absolute;
+  top: -16%;
+  right: -10%;
+  width: clamp(56px, 22vw, 90px);
+  z-index: 2;
+  transform: translateY(-140%) rotate(-18deg);
+  opacity: 0;
+  animation: hat-drop 0.8s 1s cubic-bezier(.34,1.56,.64,1) forwards;
+  filter: drop-shadow(0 6px 10px rgba(0,0,0,0.15));
+}
+
+@keyframes hat-drop {
+  0%   { transform: translateY(-140%) rotate(-18deg); opacity: 0; }
+  60%  { transform: translateY(6%) rotate(8deg); opacity: 1; }
+  80%  { transform: translateY(-4%) rotate(-4deg); }
+  100% { transform: translateY(0) rotate(-8deg); opacity: 1; }
+}
+
+.btn-open {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  background: var(--pink-accent);
+  color: var(--white);
+  font-family: var(--font-hand);
+  font-size: clamp(1rem, 4vw, 1.3rem);
+  padding: 0.8em 1.6em;
+  border-radius: 999px;
+  box-shadow: 0 8px 20px rgba(255, 159, 203, 0.5);
+  opacity: 0;
+  transform: scale(0.5);
+  animation: btn-bounce-in 0.6s 1.6s cubic-bezier(.34,1.56,.64,1) forwards,
+             btn-idle-bounce 1.8s 2.4s ease-in-out infinite;
+}
+
+@keyframes btn-bounce-in {
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes btn-idle-bounce {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50%      { transform: translateY(-6px) scale(1); }
+}
+
+.envelope-emoji { display: inline-block; }
+
+/* small floating decorations on the cover — absolute, decorative only */
+.cover-decor {
+  position: absolute;
+  font-size: clamp(1.2rem, 5vw, 2rem);
+  opacity: 0.7;
+  animation: float-decor 4s ease-in-out infinite;
+  pointer-events: none;
+}
+.cover-decor--tl { top: 6%;  left: 8%;  animation-delay: 0s; }
+.cover-decor--tr { top: 10%; right: 8%; animation-delay: 1s; }
+.cover-decor--bl { bottom: 8%; left: 10%; animation-delay: 2s; }
+.cover-decor--br { bottom: 12%; right: 9%; animation-delay: 0.5s; }
+
+@keyframes float-decor {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%      { transform: translateY(-14px) rotate(10deg); }
+}
+
+/* =========================================================
+   PAGE 2-4 — LETTER SCENE (single reusable component)
+   ========================================================= */
+
+#page-letter {
+  background: linear-gradient(180deg, var(--pink-2) 0%, var(--pink-3) 100%);
+}
+
+.letter-scene {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1.2rem, 5vh, 2.2rem);
+  width: 100%;
+  max-width: 460px;
+}
+
+/* envelope-wrapper = the "coordinate system parent" for the letter.
+   Its size is fixed by width + aspect-ratio only — NEVER by content,
+   so it is byte-for-byte identical on pages 2, 3 and 4. */
+.envelope-wrapper {
+  position: relative;
+  width: clamp(240px, 72vw, 340px);
+  aspect-ratio: 1 / 1;
+  overflow: visible;            /* the paper is allowed to rise above it */
+  margin-top: clamp(2rem, 12vh, 4rem); /* room for the paper to peek up into */
+}
+
+.envelope-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  z-index: 1;
+}
+
+/* paper: fixed width + fixed aspect-ratio => identical size on every page,
+   regardless of how much text it contains. */
+.paper {
+  position: absolute;
+  left: 50%;
+  bottom: 26%;                  /* anchored to the envelope's opening */
+  width: 74%;
+  aspect-ratio: 0.672;
+  z-index: 2;
+  transform: translate(-50%, 46%);   /* resting = "peeking out" state */
+  transition: transform 0.9s cubic-bezier(.22,.9,.32,1);
+}
+
+.paper.is-out {
+  transform: translate(-50%, -8%);   /* fully risen state */
+}
+
+.paper-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  border-radius: 6px;
+  box-shadow: 0 14px 30px rgba(150, 90, 120, 0.25);
+}
+
+.paper-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.5rem, 2vh, 1rem);
+  padding: 14% 12%;
+  overflow-y: auto;              /* safety net for very long text on small screens */
+  overflow-x: hidden;
+  text-align: center;
+}
+
+.handwritten {
+  font-family: var(--font-hand);
+  color: #7a4a5f;
+}
+
+.letter-text {
+  font-size: clamp(0.72rem, 3.4vw, 1.05rem);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.letter-bouquet {
+  width: clamp(40px, 14vw, 60px);
+  margin: 0 auto;
+}
+
+/* nav area sits BELOW the envelope in normal document flow —
+   it can never overlap the paper or the envelope. */
+.nav-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-s);
+}
+
+.dots {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--pink-1);
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.dot.is-active {
+  background: var(--pink-accent);
+  transform: scale(1.3);
+}
+
+.btn-next {
+  background: var(--pink-accent);
+  color: var(--white);
+  font-family: var(--font-hand);
+  font-size: clamp(0.95rem, 3.6vw, 1.15rem);
+  padding: 0.7em 1.8em;
+  border-radius: 999px;
+  box-shadow: 0 8px 18px rgba(255, 159, 203, 0.45);
+  transition: transform 0.15s ease;
+}
+
+.btn-next:active {
+  transform: scale(0.94);
+}
+
+.sparkle-decor {
+  position: absolute;
+  font-size: clamp(1rem, 4vw, 1.6rem);
+  opacity: 0.6;
+  pointer-events: none;
+  animation: float-decor 5s ease-in-out infinite;
+}
+.sparkle-decor--1 { top: 8%;  left: 10%; }
+.sparkle-decor--2 { top: 14%; right: 12%; animation-delay: 1.5s; }
+.sparkle-decor--3 { bottom: 10%; left: 14%; animation-delay: 3s; }
+
+/* =========================================================
+   PAGE 5 — CLOSING
+   ========================================================= */
+
+#page-closing {
+  background: var(--white);
+}
+
+.closing-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(0.8rem, 3vh, 1.4rem);
+  max-width: 420px;
+  width: 100%;
+}
+
+.snoopy-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(0.8rem, 4vw, 1.6rem);
+  width: 100%;
+  max-width: 320px;
+  align-items: end;
+}
+
+.snoopy {
+  width: 100%;
+  height: auto;
+}
+
+.snoopy--1 { transform: rotate(-4deg); }
+.snoopy--2 { transform: rotate(4deg); }
+
+.closing-bouquet {
+  width: clamp(70px, 22vw, 110px);
+}
+
+.closing-title {
+  font-size: clamp(1rem, 4vw, 1.3rem);
+  margin: 0;
+}
+
+.closing-main {
+  font-size: clamp(1.4rem, 6vw, 2.1rem);
+  color: var(--pink-accent);
+  margin: 0;
+}
+
+.closing-sub {
+  font-size: clamp(0.95rem, 3.6vw, 1.15rem);
+  margin: 0;
+  opacity: 0.85;
+}
+
+.closing-decor {
+  position: absolute;
+  font-size: clamp(1.4rem, 6vw, 2.2rem);
+  opacity: 0.5;
+  pointer-events: none;
+  animation: float-decor 4.5s ease-in-out infinite;
+}
+.closing-decor--tl { top: 6%; left: 8%; }
+.closing-decor--tr { top: 8%; right: 8%; animation-delay: 1.2s; }
+
+/* =========================================================
+   FX LAYER — falling sakura / hearts / tap bursts
+   Fixed full-screen, pointer-events none so it never blocks taps.
+   ========================================================= */
+
+#fx-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.fx-fall {
+  position: absolute;
+  top: -10%;
+  font-size: 1.4rem;
+  will-change: transform, opacity;
+  animation-name: fall-down;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fall-down {
+  0%   { transform: translateY(0) rotate(0deg); opacity: 0.9; }
+  100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+}
+
+.fx-burst {
+  position: absolute;
+  font-size: 1.3rem;
+  animation: burst-out 0.9s ease-out forwards;
+}
+
+@keyframes burst-out {
+  0%   { transform: translate(-50%, -50%) scale(0.6); opacity: 1; }
+  100% { transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1.1); opacity: 0; }
+}
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* =========================================================
+   LARGER SCREENS (tablet / laptop / desktop)
+   Content is capped with max-width above; here we just give
+   a bit more breathing room, nothing structural changes.
+   ========================================================= */
+
+@media (min-width: 768px) {
+  .screen { padding: var(--space-l) var(--space-l); }
+}

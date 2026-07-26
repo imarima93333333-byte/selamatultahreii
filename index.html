@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+<title>Happy Birthday Rei 🌸</title>
+
+<!-- Google Fonts: handwritten style for the letters -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Gloria+Hallelujah&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ============================= -->
+  <!-- LOADING SCREEN -->
+  <!-- ============================= -->
+  <div id="loading-screen">
+    <div class="loading-flower">🌸</div>
+    <p class="loading-text">loading a tiny surprise...</p>
+  </div>
+
+  <!-- ============================= -->
+  <!-- MAIN APP -->
+  <!-- ============================= -->
+  <main id="app">
+
+    <!-- PAGE 1 : COVER -->
+    <section id="page-cover" class="screen">
+      <div class="cover-decor cover-decor--tl">✨</div>
+      <div class="cover-decor cover-decor--tr">✨</div>
+      <div class="cover-decor cover-decor--bl">🌸</div>
+      <div class="cover-decor cover-decor--br">🌸</div>
+
+      <div class="cover-content">
+        <img src="assets/happybirthday.png" alt="Happy Birthday" class="cover-title" id="cover-title">
+
+        <div class="photo-frame" id="photo-frame">
+          <img src="assets/partyhat.png" alt="" class="party-hat" id="party-hat">
+          <img src="assets/rei.png" alt="Rei" class="photo-img">
+        </div>
+
+        <button class="btn-open" id="btn-open">
+          <span>Open Letter</span> <span class="envelope-emoji">💌</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- PAGE 2-4 : SURAT (single reusable component) -->
+    <section id="page-letter" class="screen">
+      <div class="letter-scene">
+
+        <div class="sparkle-decor sparkle-decor--1">✨</div>
+        <div class="sparkle-decor sparkle-decor--2">🌸</div>
+        <div class="sparkle-decor sparkle-decor--3">✨</div>
+
+        <div class="envelope-wrapper" id="envelope-wrapper">
+          <img src="assets/envelope.png" alt="" class="envelope-img">
+
+          <div class="paper" id="paper">
+            <img src="assets/paper-texture.png" alt="" class="paper-bg">
+            <div class="paper-content">
+              <p class="letter-text handwritten" id="letter-text"></p>
+              <img src="assets/bouquet.png" alt="" class="letter-bouquet" id="letter-bouquet" hidden>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-area">
+          <div class="dots" id="dots">
+            <span class="dot" data-i="0"></span>
+            <span class="dot" data-i="1"></span>
+            <span class="dot" data-i="2"></span>
+          </div>
+          <button class="btn-next" id="btn-next">Next →</button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PAGE 5 : CLOSING -->
+    <section id="page-closing" class="screen">
+      <div class="closing-decor closing-decor--tl">🌸</div>
+      <div class="closing-decor closing-decor--tr">🌸</div>
+
+      <div class="closing-content">
+        <div class="snoopy-row">
+          <img src="assets/snoopy1.png" alt="" class="snoopy snoopy--1">
+          <img src="assets/snoopy2.png" alt="" class="snoopy snoopy--2">
+        </div>
+
+        <img src="assets/bouquet.png" alt="" class="closing-bouquet">
+
+        <p class="closing-title handwritten">Once again,</p>
+        <p class="closing-main handwritten">Happy Birthday Rei ♡</p>
+        <p class="closing-sub handwritten">Thank you for reading ♡</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- effects layer: falling sakura / hearts / tap bursts -->
+  <div id="fx-layer" aria-hidden="true"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
