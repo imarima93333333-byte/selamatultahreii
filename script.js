@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
       showBouquet: false,
     },
     {
-      text: 'aiwisyualdebes ya reimutttt, may your days always happy and blessed— semoga hanya hal-hal baik yang datang ke kamuuu',
+      text: 'aiwisyualdebes ya reimutttt, may your days always filled with happiness and always be blessed— semoga hanya hal-hal baik yang datang ke kamuuu',
       showBouquet: true,
     },
   ];
@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
      3. PAGE 5 — falling sakura / hearts + tap burst
      --------------------------------------------------------- */
   const fxLayer = document.getElementById('fx-layer');
-  const fallSymbols = ['🌸', '💗', '🌸', '💕'];
+  const fallSymbols = ['🌸', '💗', '🌸', '💕', '🫰'];
   let fallTimer = null;
 
   function spawnFalling() {
