@@ -7,11 +7,16 @@
    ========================================================= */
 
 :root {
-  --pink-1: #FFD6E8;
-  --pink-2: #FFEAF3;
-  --pink-3: #FFF8FB;
-  --white:  #FFFFFF;
-  --pink-accent: #FF9FCB;
+  --pink-100: #FFF8FB;
+  --pink-200: #FFEAF3;
+  --pink-300: #FFD6E8;
+  --pink-500: #FF9FCB;
+  --pink-700: #E8629B;
+  --white: #FFFFFF;
+  --ink: #7A4A63;
+
+  --shadow-soft: 0 8px 24px rgba(255, 159, 203, 0.28);
+  --shadow-softer: 0 4px 14px rgba(255, 159, 203, 0.22);
 
   --font-hand: 'Patrick Hand', cursive;
 
